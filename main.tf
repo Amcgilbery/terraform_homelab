@@ -20,7 +20,7 @@ resource "aws_subnet" "public" {
     }
 }
 
-resource "aws_subnet" "public" {
+resource "aws_subnet" "private" {
     vpc_id = aws_vpc.app.id
     count = 3
     cidr_block = cidrsubnet(aws_vpc.app.cidr_block, 8, count.index)
