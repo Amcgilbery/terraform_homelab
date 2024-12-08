@@ -37,3 +37,22 @@ resource "aws_subnet" "private" {
     Name = "private-subnet-${count.index}"
   }
 }
+
+resource "aws_security_group" "app_security_group" {
+    name = "app_security_group"
+    vpc_id = aws_vpc.app.id
+}
+
+resource "aws_vpc_security_group_ingress_rule" "app_web_in" {
+  security_group_id = aws_security_group.app_security_group.id
+  ip_protocol = "tcp"
+  to_port = 80
+  from_port = 80
+  cidr_ipv4 = "0.0.0.0/0"
+}
+
+resource "aws_vpc_security_group_egress_rule" "app_web_out" {
+  security_group_id = aws_security_group.app_security_group.id
+  ip_protocol = -1
+  cidr_ipv4 = "0.0.0.0/0"
+}
